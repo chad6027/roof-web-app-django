@@ -9,4 +9,4 @@ class Chat(models.Model):
     message = models.TextField(null=False)
     send_time = models.DateTimeField(auto_now=True)
 
-    room_id = models.ForeignKey(to=Room, related_name='room', on_delete=models.CASCADE)
+    room_id = models.ForeignKey(to=Room, related_name='room_id', on_delete=models.CASCADE)
