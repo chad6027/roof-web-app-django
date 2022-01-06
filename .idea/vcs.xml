@@ -3,6 +3,5 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/roof" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/roof-web-app-django" vcs="Git" />
   </component>
 </project>
