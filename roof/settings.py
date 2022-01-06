@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+import datetime
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,10 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'rest_framework',
-    'rest_framework.authtoken',
+    'rest_framework_jwt',
     'rest_auth',
     'rest_auth.registration',
     'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
 
     'users',
     'rooms',
@@ -51,6 +55,15 @@ INSTALLED_APPS = [
     'photos',
     'schedules',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES':[
+         'rest_framework.permissions.AllowAny',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ],
+}
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
@@ -74,6 +87,24 @@ ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/?verification=1'
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = '/?verification=1'
 ACCOUNT_PASSWORD_INPUT_RENDER_VALUE = True
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+REST_USE_JWT = True
+
+JWT_AUTH = { 
+    'JWT_ENCODE_HANDLER':'rest_framework_jwt.utils.jwt_encode_handler',
+    'JWT_DECODE_HANDLER':'rest_framework_jwt.utils.jwt_decode_handler',
+    'JWT_PAYLOAD_HANDLER':'rest_framework_jwt.utils.jwt_payload_handler',
+    'JWT_PAYLOAD_GET_USER_ID_HANDLER':'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
+    'JWT_RESPONSE_PAYLOAD_HANDLER':'rest_framework_jwt.utils.jwt_response_payload_handler',
+
+   'JWT_SECRET_KEY': SECRET_KEY,
+   'JWT_ALGORITHM': 'HS256',
+   'JWT_ALLOW_REFRESH': True,
+   'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+   'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
+   'JWT_VERIFY_EXPIRATION' : True,
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -122,18 +153,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 
