@@ -17,3 +17,8 @@ class TestAPI(ListAPIView):
     permission_classes = [IsAuthenticated]
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+from django.shortcuts import render
+
+def view_name(request):
+    return render(request, 'index.html')
