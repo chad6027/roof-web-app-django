@@ -12,7 +12,7 @@
     {{ room_name|json_script:"room-name" }}
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
-
+        document.cookie = 'token=' + "1234" + '; path=/';
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host

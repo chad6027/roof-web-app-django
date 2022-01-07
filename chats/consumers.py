@@ -10,10 +10,6 @@ from rooms.models import Member
 
 class ChatConsumer(AsyncWebsocketConsumer):
     @sync_to_async
-    def get_user(self):
-        return get_user_model().objects.get(id=2)
-
-    @sync_to_async
     def get_room(self):
         return Member.objects.get(member=self.user).room
 
@@ -21,14 +17,10 @@ class ChatConsumer(AsyncWebsocketConsumer):
     def create_message(self, message):
         Chat.objects.create(writer=self.user, message=message, room_id=self.room)
 
-
     async def connect(self):
 
-        # self.room_name = self.scope['url_route']['kwargs']['room_name']
-        # self.room_group_name = 'chat_%s' % self.room_name
-
         # 유저를 찾고, 유저가 들어가있는 방을 찾아야 함
-        self.user = await self.get_user()
+        self.user = self.scope['user']
         self.room = await self.get_room()
         self.room_name = self.room.id
         self.room_group_name = 'chat_%s' % self.room_name

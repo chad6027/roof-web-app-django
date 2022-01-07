@@ -1,17 +1,17 @@
 from channels.db import database_sync_to_async
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser
-from rest_framework.exceptions import InvalidToken, TokenError
-from rest_framework.tokens import UntypedToken
-from rest_framework.authentication import JWTTokenUserAuthentication
-from rest_framework.state import User
+from django.contrib.auth.models import AnonymousUser, User
 from channels.middleware import BaseMiddleware
 from channels.auth import AuthMiddlewareStack
+
 from django.db import close_old_connections
-from urllib.parse import parse_qs
+from django.http import parse_cookie
 from jwt import decode as jwt_decode
 from django.conf import settings
-from rest_framework.authtoken.admin import User
+
+
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.tokens import UntypedToken
 
 
 @database_sync_to_async
@@ -33,9 +33,13 @@ class JwtAuthMiddleware(BaseMiddleware):
     async def __call__(self, scope, receive, send):
         # Close old database connections to prevent usage of timed out connections
         close_old_connections()
-
         # Get the token
-        token = parse_qs(scope["query_string"].decode("utf8"))["token"][0]
+        for name, value in scope.get("headers", []):
+            if name == b"cookie":
+                cookies = parse_cookie(value.decode("utf8"))
+                break
+        token = cookies["token"]
+        print(token)
 
         # Try to authenticate the user
         try:
