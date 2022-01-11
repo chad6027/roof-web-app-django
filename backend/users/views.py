@@ -21,4 +21,4 @@ class TestAPI(ListAPIView):
 from django.shortcuts import render
 
 def view_name(request):
-    return render(request, 'index.html')
+    return render(request, 'social_login.html')
