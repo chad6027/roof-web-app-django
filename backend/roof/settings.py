@@ -28,7 +28,10 @@ SECRET_KEY = 'django-insecure-bczt*ee8r_^-(1ixes8$!y_ltt+^o7+0h2+7k^$h*9^ufe0y2$
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -77,6 +80,7 @@ INSTALLED_APPS = [
     'chats',
     'photos',
     'schedules',
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -178,6 +182,7 @@ SIMPLE_JWT = {
 
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

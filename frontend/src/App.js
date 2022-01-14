@@ -1,18 +1,14 @@
-import logo from './logo.svg';
 import './App.css';
-import { Routes, Route, Link } from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Link, Switch} from 'react-router-dom';
+import Room from './routes/room'
 
 function App() {
   return (
-      <Routes>
-        <Route exact path="/" element={<main />}> </Route>
-        <Route path="/login" element={<login />}> </Route>
-        <Route path="/join" element={<join />}> </Route>
-        <Route path="/room" element={<room />}> </Route>
-        <Route path="/chat" element={<chat />}> </Route>
-        <Route path="/photo" element={<photo />}> </Route>
-        <Route path="/schedule" element={<schedule />}> </Route>
-      </Routes>
+          <Router>
+              <Routes>
+                <Route exact={true} path="/" element={<Room />} />
+              </Routes>
+          </Router>
   )
   ;
 }
